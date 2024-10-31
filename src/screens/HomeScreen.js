@@ -2,6 +2,7 @@ import React from 'react';
 import { SafeAreaView, StyleSheet, Text, View, Image, TouchableOpacity, ImageBackground, ScrollView, FlatList } from 'react-native';
 import { Fonts, Colors, Images } from '../constants/index';
 import PieChart from 'react-native-pie-chart'
+import { useNavigation } from "@react-navigation/native";
 
 const FITNESSDATA = [
   {
@@ -10,7 +11,7 @@ const FITNESSDATA = [
     icon: Images.SLEEP_ICON,
     backgroundColor: Colors.SLEEP_BACKGROUND_COLOR,
     value: '5',
-    unit:'h',
+    unit: 'h',
   },
   {
     id: "bd7acbea-c1b1-46c2-aed5-3ad53abb2dkg",
@@ -18,7 +19,7 @@ const FITNESSDATA = [
     icon: Images.HEART_ICON,
     backgroundColor: Colors.HEART_RATE_BACKGROUND_COLOR,
     value: '96',
-    unit:'bpm',
+    unit: 'bpm',
   },
   {
     id: "bd7acbea-c1b1-46c2-aed5-3ad53abr8ii",
@@ -26,7 +27,7 @@ const FITNESSDATA = [
     icon: Images.TEMPARATURE_ICON,
     backgroundColor: Colors.TEMPARATURE_BACKGROUND_COLOR,
     value: '36.3',
-    unit:'°C',
+    unit: '°C',
   },
   {
     id: "bd7acbea-c1b1-46c2-aed5-3ad5www",
@@ -34,7 +35,7 @@ const FITNESSDATA = [
     icon: Images.WALK_ICON,
     backgroundColor: Colors.SPORT_RECORD_BACKGROUND_COLOR,
     value: '36.3',
-    unit:'h',
+    unit: 'h',
   },
   {
     id: "bd7acbea-c1b1-46c2-aaed5-3ad5ttt",
@@ -42,7 +43,7 @@ const FITNESSDATA = [
     icon: Images.WEIGHT_ICON,
     backgroundColor: Colors.BODY_WEIGHT_BACKGROUND_COLOR,
     value: '53.0',
-    unit:'kg',
+    unit: 'kg',
   },
   {
     id: "bd7acbea-c1ssb1-46c2-aaed5-3ad5233",
@@ -50,7 +51,7 @@ const FITNESSDATA = [
     icon: Images.LOCATION_ICON,
     backgroundColor: Colors.DISTANCE_BACKGROUND_COLOR,
     value: '132/82',
-    unit:'kg',
+    unit: 'kg',
   },
   {
     id: "bd7acba-c1ssb01-46c2-aaed5-3ad5111",
@@ -58,12 +59,13 @@ const FITNESSDATA = [
     icon: Images.PRESSURE_ICON,
     backgroundColor: Colors.BODY_PRESSURE_BACKGROUND_COLOR,
     value: '1.02',
-    unit:'mmHg'
+    unit: 'mmHg'
   },
 
 ];
 
 const HomeScreen = () => {
+  const navigation = useNavigation();
 
   //Dummy Pie chart values
   const widthAndHeight = 107
@@ -76,7 +78,9 @@ const HomeScreen = () => {
 
   const renderItem = ({ item, index }) => {
     return (
-      <View style={styles.cellViewStyle}>
+      <TouchableOpacity style={styles.cellViewStyle}
+        onPress={() => navigation.navigate('FitnessDetailsScreen')}
+      >
         {/* title */}
         <View style={styles.fitnessNameViewStyle}>
 
@@ -97,7 +101,7 @@ const HomeScreen = () => {
           </View>
         </View>
 
-      </View>
+      </TouchableOpacity>
     )
   }
 
