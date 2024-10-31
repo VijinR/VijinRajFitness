@@ -1,0 +1,13 @@
+{
+  "migIndex": 1,
+  "data": [
+    {
+      "path": "src/assets/fonts/ItalianPlateNo2.ttf",
+      "sha1": "0833d871f97744df955ade9648aeb9f10021c9b1"
+    },
+    {
+      "path": "src/assets/fonts/MergeOne-Regular.ttf",
+      "sha1": "66d672040fc8bc8ba7448aaac788db57b3b71535"
+    }
+  ]
+}
