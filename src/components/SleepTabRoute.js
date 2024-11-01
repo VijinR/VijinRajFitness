@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { SafeAreaView, StyleSheet, Text, View, FlatList, ScrollView, Image, TouchableOpacity } from 'react-native';
 import { Fonts, Colors, Images } from '../constants/index';
 import { useNavigation } from "@react-navigation/native";
@@ -9,86 +9,156 @@ const FITNESSDATA = [
   {
     id: "bd7acbea-c1b1-46c2-aed5-3ad53abb2dfg",
     type: "fallAsleep",
+    name: "Fall asleep",
+    hour:"2",
+    min:"50",
+    duration:"9:00 - 11:50",
     backgroundColor: Colors.SPORT_RECORD_BACKGROUND_COLOR,
+    selectorColor: Colors.FALLASLEEP_SELECTOR_COLOR,
     value: 50,
   },
   {
     id: "bd7acbea-c1b1-46c2-aed5-3ad53abb2dkg",
     type: "lightSleep",
+    name: "Light sleep",
+    hour:"0",
+    min:"50",
+    duration:"11:50 - 12:40",
     backgroundColor: Colors.BODY_PRESSURE_BACKGROUND_COLOR,
+    selectorColor: Colors.LIGHT_SLEEP_SELECTOR_COLOR,
     value: 10,
   },
   {
     id: "bd7acbea-c1b1-46c2-aed5-ssdfd53abr8ii",
     type: "deepSleep",
+    name: "Deep sleep",
+    hour:"0",
+    min:"50",
+    duration:"12:40 : 01:30",
     backgroundColor: Colors.GREEN_PRIMARY_COLOR,
+    selectorColor: Colors.DEEP_SLEEP_SELECTER_COLOR,
     value: 10,
   },
   {
     id: "bd7acbea-c1b1-4233242-aed5-3ad53abb2dkg",
     type: "lightSleep",
+    name: "Light sleep",
+    hour:"0",
+    min:"50",
+    duration:"01:30 : 02:20",
     backgroundColor: Colors.BODY_PRESSURE_BACKGROUND_COLOR,
+    selectorColor: Colors.LIGHT_SLEEP_SELECTOR_COLOR,
     value: 10,
   },
   {
     id: "bd7acbea-c132e-46c2-aed5-ssdfd53abr8ii",
     type: "deepSleep",
+    name: "Deep sleep",
+    hour:"1",
+    min:"30",
+    duration:"02:20 - 03:00",
     backgroundColor: Colors.GREEN_PRIMARY_COLOR,
+    selectorColor: Colors.DEEP_SLEEP_SELECTER_COLOR,
     value: 20,
   },
   {
     id: "bd7acbea-c1b1-46c2-aed5-3ad5www",
     type: "lightSleep",
+    name: "Light sleep",
+    hour:"4",
+    min:"50",
+    duration:"03:00 - 03:10",
     backgroundColor: Colors.BODY_PRESSURE_BACKGROUND_COLOR,
+    selectorColor: Colors.LIGHT_SLEEP_SELECTOR_COLOR,
     value: 50,
   },
   {
     id: "bd7acbea-c1b1-46c2-aed5-3ad53abr8ii",
     type: "deepSleep",
+    name: "Deep sleep",
+    hour:"2",
+    min:"00",
+    duration:"03:10 - 03:30",
     backgroundColor: Colors.GREEN_PRIMARY_COLOR,
+    selectorColor: Colors.DEEP_SLEEP_SELECTER_COLOR,
     value: 25,
   },
   {
     id: "bd7acbea-ce2r1-46c2-aed5-3ad5www",
     type: "lightSleep",
+    name: "Light sleep",
+    hour:"2",
+    min:"00",
+    duration:"03:30 - 03:40",
     backgroundColor: Colors.BODY_PRESSURE_BACKGROUND_COLOR,
+    selectorColor: Colors.LIGHT_SLEEP_SELECTOR_COLOR,
     value: 25,
   },
 
   {
     id: "bd7acbea-c1b1-46c2-aaed5-3ad5ttt",
     type: "deepSleep",
+    name: "Deep sleep",
+    hour:"2",
+    min:"00",
+    duration:"03:40 - 03:50",
     backgroundColor: Colors.GREEN_PRIMARY_COLOR,
+    selectorColor: Colors.DEEP_SLEEP_SELECTER_COLOR,
     value: 25,
   },
   {
     id: "bd7acb34535-c1b1-46c2-aed5-3ad53abb2dkg",
     type: "awake",
+    name: "Awake",
+    hour:"2",
+    min:"00",
+    duration:"03:50 - 04:00",
     backgroundColor: Colors.DISTANCE_BACKGROUND_COLOR,
+    selectorColor: Colors.AWAKE_SELECTOR_COLOR,
     value: 25,
   },
   {
     id: "bd7acbea-c1ssb1-46c2-aaed5-3ad5233",
     type: "deepSleep",
+    name: "Deep sleep",
+    hour:"1",
+    min:"30",
+    duration:"04:00 - 04:10",
     backgroundColor: Colors.GREEN_PRIMARY_COLOR,
+    selectorColor: Colors.DEEP_SLEEP_SELECTER_COLOR,
     value: 20,
   },
   {
     id: "bd7ac33a-ce2r1-46c2-aed5-3ad5www",
     type: "lightSleep",
+    name: "Light sleep",
+    hour:"1",
+    min:"30",
+    duration:"04:10 - 04:20",
     backgroundColor: Colors.BODY_PRESSURE_BACKGROUND_COLOR,
+    selectorColor: Colors.LIGHT_SLEEP_SELECTOR_COLOR,
     value: 20,
   },
   {
     id: "bd7acbwr2r-c1ssb1-46c2-aaed5-3ad5233",
     type: "deepSleep",
+    name: "Deep sleep",
+    hour:"0",
+    min:"50",
+    duration:"04:20 - 04:30",
     backgroundColor: Colors.GREEN_PRIMARY_COLOR,
+    selectorColor: Colors.DEEP_SLEEP_SELECTER_COLOR,
     value: 10,
   },
   {
     id: "bd7acbea-c1b1-46c2-aed5-3ad53abb2dkg",
     type: "awake",
+    name: "Awake",
+    hour:"4",
+    min:"50",
+    duration:"04:30 - 05:10",
     backgroundColor: Colors.DISTANCE_BACKGROUND_COLOR,
+    selectorColor: Colors.AWAKE_SELECTOR_COLOR,
     value: 50,
   },
 
@@ -96,42 +166,71 @@ const FITNESSDATA = [
 
 const SleepTabRoute = () => {
   const navigation = useNavigation();
+  const [selectedIndex, setSelectedIndex] = useState(FITNESSDATA.length - 1)
+  const [selectedName, setSlectedName] = useState(FITNESSDATA[FITNESSDATA.length - 1].name)
+  const [selectedHour, setSelectedHour] = useState(FITNESSDATA[FITNESSDATA.length - 1].hour)
+  const [selectedMin, setSelectedMin] = useState(FITNESSDATA[FITNESSDATA.length - 1].min)
+  const [selectedDuration, setSelectedDuration] = useState(FITNESSDATA[FITNESSDATA.length - 1].duration)
 
   const widthAndHeight = 95
   const targetSeries = [430, 321, 185, 123]
   const targetSliceColor = [Colors.GREEN_PRIMARY_COLOR, Colors.DISTANCE_BACKGROUND_COLOR, Colors.BODY_PRESSURE_BACKGROUND_COLOR, Colors.SPORT_RECORD_BACKGROUND_COLOR]
 
+  const onPressBar = (item, index) => {
+    setSelectedIndex(index)
+    setSlectedName(item.name)
+    setSelectedHour(item.hour)
+    setSelectedMin(item.min)
+    setSelectedDuration(item.duration)
+  }
+
   const renderItem = ({ item, index }) => {
 
     return (
-      <View style={{ width: item.value, height: 200 }}>
-        <View style={{ height: 50, width: item.value, borderBottomWidth: 1, borderBottomColor: Colors.SEPARATOR_COLOR }}>
-          <View style={{ backgroundColor: item.type == 'awake' ? item.backgroundColor : 'transparent', borderRadius: 6, height: 50, width: item.value }}>
+      <TouchableOpacity style={{ width: item.value, height: 240 }}
+        onPress={() => onPressBar(item, index)}
+      >
+        <View style={{ marginTop: 20 }}>
+          <View style={[styles.barViewStyle, { width: item.value }]}>
+            <View style={[styles.innerBarVieStyle,
+            { backgroundColor: item.type == 'awake' ? item.backgroundColor : 'transparent', width: item.value }]}
+            />
+          </View>
 
+          <View style={[styles.barViewStyle, { width: item.value }]}>
+            <View style={[styles.innerBarVieStyle,
+            { backgroundColor: item.type == 'deepSleep' ? item.backgroundColor : 'transparent', width: item.value }]}
+            />
+          </View>
+
+          <View style={[styles.barViewStyle, { width: item.value }]}>
+            <View style={[styles.innerBarVieStyle,
+            { backgroundColor: item.type == 'lightSleep' ? item.backgroundColor : 'transparent', width: item.value }]}
+            />
+          </View>
+
+          <View style={[styles.barViewStyle, { width: item.value }]}>
+            <View style={[styles.innerBarVieStyle,
+            { backgroundColor: item.type == 'fallAsleep' ? item.backgroundColor : 'transparent', width: item.value }]}
+            />
           </View>
         </View>
 
-        <View style={{ height: 50, width: item.value, borderBottomWidth: 1, borderBottomColor: Colors.SEPARATOR_COLOR }}>
-          <View style={{ borderRadius: 6, backgroundColor: item.type == 'deepSleep' ? item.backgroundColor : 'transparent', height: 50, width: item.value }}>
+        {
+          selectedIndex == index ?
+            <View style={{ position: 'absolute', height: 240, backgroundColor: item.selectorColor, width: item.value, borderRadius: item.value / 2, justifyContent: 'center', alignItems: 'center' }} >
+              <Image
+                source={Images.MARKER_LINE_ICON}
+                style={{ alignSelf: 'center' }}
+                resizeMode='contain'
+              />
+            </View>
 
-          </View>
+            : null
+        }
 
-        </View>
 
-        <View style={{ height: 50, width: item.value, borderBottomWidth: 1, borderBottomColor: Colors.SEPARATOR_COLOR }}>
-          <View style={{ borderRadius: 6, backgroundColor: item.type == 'lightSleep' ? item.backgroundColor : 'transparent', height: 50, width: item.value }}>
-
-          </View>
-
-        </View>
-
-        <View style={{ height: 50, width: item.value, borderBottomWidth: 1, borderBottomColor: Colors.SEPARATOR_COLOR }}>
-          <View style={{ borderRadius: 6, backgroundColor: item.type == 'fallAsleep' ? item.backgroundColor : 'transparent', height: 50, width: item.value }}>
-
-          </View>
-        </View>
-
-      </View>
+      </TouchableOpacity>
     )
   }
 
@@ -156,13 +255,13 @@ const SleepTabRoute = () => {
     <SafeAreaView style={styles.container}>
       <ScrollView>
         <View style={{ backgroundColor: Colors.WHITE_COLOR }}>
-          <Text style={styles.awakeTextStyle}>Awake</Text>
-          <Text style={styles.durationTextStyle}>4 <Text style={styles.unitTextStyle}>h</Text> 50 <Text style={styles.unitTextStyle}>min</Text></Text>
-          <Text style={[styles.unitTextStyle, { marginTop: 6, color: Colors.TIME_TEXT_GRAY_COLOR }]}>7:45-7:45</Text>
+          <Text style={styles.awakeTextStyle}>{selectedName}</Text>
+          <Text style={styles.durationTextStyle}>{selectedHour} <Text style={styles.unitTextStyle}>h</Text> {selectedMin} <Text style={styles.unitTextStyle}>min</Text></Text>
+          <Text style={[styles.unitTextStyle, { marginTop: 6, color: Colors.TIME_TEXT_GRAY_COLOR }]}>{selectedDuration}</Text>
         </View>
 
         {/* GRAPH VIEW */}
-        <View style={{ backgroundColor: Colors.WHITE_COLOR }}>
+        <View style={{ backgroundColor: Colors.WHITE_COLOR, zIndex: -2 }}>
           <FlatList
             //ref={(ref) => flatListRef = ref}
             style={styles.flatListStyle}
@@ -295,7 +394,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   flatListStyle: {
-    height: 200,
+    height: 240,
     width: '90%',
     alignSelf: 'center',
     marginTop: 40
@@ -381,4 +480,13 @@ const styles = StyleSheet.create({
     fontSize: 15,
     color: Colors.BLACK_COLOR,
   },
+  barViewStyle: {
+    height: 50,
+    borderBottomWidth: 1,
+    borderBottomColor: Colors.SEPARATOR_COLOR
+  },
+  innerBarVieStyle: {
+    borderRadius: 6,
+    height: 50
+  }
 });

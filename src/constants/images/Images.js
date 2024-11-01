@@ -18,5 +18,6 @@ export default {
     PRESSURE_ICON: require("../../assets/images/pressure.png"),
 
     BACK_ICON: require("../../assets/images/backIcon.png"),
+    MARKER_LINE_ICON: require("../../assets/images/markerLine.png"),
 
 }
